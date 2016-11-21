@@ -72,23 +72,6 @@ router.post('/api/create', function(req, res){
 });
 
 
-router.get('/api/get/latest', function(req,res){
-  // find all people, reverse sorted by dateAdded, so the last one added comes first
-  AverageColor.find().sort('-dateAdded').exec(function(err,data){
-      if(err){
-        var error = {
-          status: "ERROR",
-          message: err
-        }
-        return res.json(err)
-      }
-      // let's just send back the first result
-      var jsonData = data[0];
-      return res.json(jsonData);
-  })
-});
-
-
 // /**
 //  * GET '/api/get'
 //  * Receives a GET request to get all animal details
@@ -110,6 +93,29 @@ router.get('/api/get', function(req, res){
     res.json(jsonData);
   })
 })
+
+
+router.get('/api/get/latest', function(req,res){
+  // find all people, reverse sorted by dateAdded, so the last one added comes first
+  AverageColor.find().sort('-dateAdded').exec(function(err,data){
+      if(err){
+        var error = {
+          status: "ERROR",
+          message: err
+        }
+        return res.json(err)
+      }
+      // let's just send back the first result
+      var jsonData = {
+        status: 'OK',
+        averagecolor: data[0]
+
+      }
+      
+      return res.json(jsonData);
+  })
+});
+
 
 // /**
 //  * GET '/api/search'
